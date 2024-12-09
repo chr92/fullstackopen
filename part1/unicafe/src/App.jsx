@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Title = () => <h1>give feedback</h1>;
+const Title = () => <h1>Give feedback</h1>;
 
 const UpdateFeedback = (typeOfFeedback, setFeedback) => {
   return () => {
@@ -11,35 +11,62 @@ const UpdateFeedback = (typeOfFeedback, setFeedback) => {
       };
       const total = newFeedback.good + newFeedback.neutral + newFeedback.bad;
       newFeedback.average = total
-        ? (newFeedback.good - newFeedback.bad) / total
+        ? ((newFeedback.good - newFeedback.bad) / total).toFixed(2)
         : 0;
-      newFeedback.positive = total ? (newFeedback.good / total) * 100 : 0;
+      newFeedback.positive = total
+        ? ((newFeedback.good / total) * 100).toFixed(1)
+        : 0;
       return newFeedback;
     });
   };
 };
 
+const Button = ({ typeofFeedback, setFeedback }) => {
+  return (
+    <button onClick={UpdateFeedback(typeofFeedback, setFeedback)}>
+      {typeofFeedback}
+    </button>
+  );
+};
+
 const Buttons = ({ setFeedback }) => {
   return (
     <div>
-      <button onClick={UpdateFeedback("good", setFeedback)}>good</button>
-      <button onClick={UpdateFeedback("neutral", setFeedback)}>neutral</button>
-      <button onClick={UpdateFeedback("bad", setFeedback)}>bad</button>
+      <Button typeofFeedback="good" setFeedback={setFeedback} />
+      <Button typeofFeedback="neutral" setFeedback={setFeedback} />
+      <Button typeofFeedback="bad" setFeedback={setFeedback} />
     </div>
   );
 };
 
-const Statistics = ({ feedback }) => {
+const StatisticLine = ({ text, value }) => {
   return (
-    <div>
-      <h1>statistics</h1>
-      <p>good {feedback.good}</p>
-      <p>neutral {feedback.neutral}</p>
-      <p>bad {feedback.bad}</p>
-      <p>average {feedback.average}</p>
-      <p>positive {feedback.positive}%</p>
-    </div>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   );
+};
+
+const Statistics = ({ feedback }) => {
+  if (feedback.good === 0 && feedback.neutral === 0 && feedback.bad === 0) {
+    return <p>No feedback given</p>;
+  } else {
+    return (
+      <div>
+        <h2>Statistics</h2>
+        <table>
+          <tbody>
+            <StatisticLine text="good" value={feedback.good} />
+            <StatisticLine text="neutral" value={feedback.neutral} />
+            <StatisticLine text="bad" value={feedback.bad} />
+            <StatisticLine text="average" value={feedback.average} />
+            <StatisticLine text="positive" value={feedback.positive + "%"} />
+          </tbody>
+        </table>
+      </div>
+    );
+  }
 };
 
 const App = () => {
