@@ -36,7 +36,8 @@ const Statistics = ({ feedback }) => {
       <p>good {feedback.good}</p>
       <p>neutral {feedback.neutral}</p>
       <p>bad {feedback.bad}</p>
-      <Feedback {feedback} />
+      <p>average {feedback.average}</p>
+      <p>positive {feedback.positive}%</p>
     </div>
   );
 };
