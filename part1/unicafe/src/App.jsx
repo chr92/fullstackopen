@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const Title = () => <h1>Give feedback</h1>;
 
@@ -29,6 +30,11 @@ const Button = ({ typeofFeedback, setFeedback }) => {
   );
 };
 
+Button.propTypes = {
+  typeofFeedback: PropTypes.string.isRequired,
+  setFeedback: PropTypes.func.isRequired,
+};
+
 const Buttons = ({ setFeedback }) => {
   return (
     <div>
@@ -39,6 +45,10 @@ const Buttons = ({ setFeedback }) => {
   );
 };
 
+Buttons.propTypes = {
+  setFeedback: PropTypes.func.isRequired,
+};
+
 const StatisticLine = ({ text, value }) => {
   return (
     <tr>
@@ -46,6 +56,11 @@ const StatisticLine = ({ text, value }) => {
       <td>{value}</td>
     </tr>
   );
+};
+
+StatisticLine.propTypes = {
+  text: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 const Statistics = ({ feedback }) => {
@@ -67,6 +82,18 @@ const Statistics = ({ feedback }) => {
       </div>
     );
   }
+};
+
+Statistics.propTypes = {
+  feedback: PropTypes.shape({
+    good: PropTypes.number.isRequired,
+    neutral: PropTypes.number.isRequired,
+    bad: PropTypes.number.isRequired,
+    average: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
+    positive: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
+  }).isRequired,
 };
 
 const App = () => {
